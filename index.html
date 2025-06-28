@@ -1,243 +1,350 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Nowoczesna strona portfolio firmy - usługi, opinie, zespół, certyfikaty." />
-  <title>Nasza Firma</title>
-  <style>
-    :root {
-      --bg: #1c1c1e;
-      --card: #2c2c2e;
-      --text: #f2f2f7;
-      --accent: #e5e5ea;
-      --shadow: rgba(0,0,0,0.2);
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Nowoczesna strona portfolio firmy - usługi, opinie, zespół, certyfikaty." />
+    <title>Nasza Firma</title>
+<style>
+        :root {
+                --bg: #181c24;
+                --card: #232946;
+                --text: #e0eaff;
+                --accent: #3a86ff;
+                --accent-light: #232946;
+                --shadow: 0 4px 24px rgba(58,134,255, 0.10);
+                --border: #2d334a;
+                --header-bg: linear-gradient(90deg, #232946 0%, #3a86ff 100%);
+                --nav-bg: #232946cc;
+                --footer-bg: #181c24;
+                --footer-text: #e0eaff;
+                --graphic1: radial-gradient(circle at 10% 10%, #3a86ff33 0%, transparent 70%);
+                --graphic2: radial-gradient(circle at 90% 80%, #ffbe0b22 0%, transparent 70%);
+                --graphic3: radial-gradient(circle at 70% 20%, #ff006e22 0%, transparent 70%);
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+        }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
+        body {
+                font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: var(--bg);
+                color: var(--text);
+                line-height: 1.7;
+                min-height: 100vh;
+                position: relative;
+                overflow-x: hidden;
+        }
 
-    header {
-      background: #000;
-      padding: 30px 20px;
-      text-align: center;
-      border-bottom: 1px solid #333;
-    }
+        /* Decorative background graphics */
+        body::before, body::after {
+                content: "";
+                position: fixed;
+                z-index: 0;
+                pointer-events: none;
+                width: 100vw;
+                height: 100vh;
+                left: 0;
+                top: 0;
+                opacity: 0.7;
+                transition: opacity 0.3s;
+        }
+        body::before {
+                background: var(--graphic1), var(--graphic2);
+                z-index: 0;
+        }
+        body::after {
+                background: var(--graphic3);
+                z-index: 0;
+        }
 
-    header h1 {
-      font-size: 28px;
-      color: var(--text);
-    }
+        header {
+                background: var(--header-bg);
+                padding: 48px 20px 36px 20px;
+                text-align: center;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+                position: relative;
+                z-index: 2;
+        }
 
-    nav {
-      background: #111;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 15px 0;
-      border-bottom: 1px solid #333;
-    }
+        header h1 {
+                font-size: 2.3rem;
+                color: #fff;
+                letter-spacing: 1px;
+                font-weight: 700;
+                text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        }
 
-    nav button {
-      background: none;
-      border: none;
-      color: var(--accent);
-      font-size: 15px;
-      cursor: pointer;
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: background 0.2s ease, color 0.2s;
-    }
+        nav {
+                background: var(--nav-bg);
+                display: flex;
+                justify-content: center;
+                gap: 24px;
+                padding: 18px 0 12px 0;
+                border-bottom: 1.5px solid var(--border);
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                backdrop-filter: blur(8px);
+        }
 
-    nav button:hover,
-    nav button.active {
-      background: #2c2c2e;
-      color: white;
-    }
+        nav button {
+                background: var(--accent-light);
+                border: none;
+                color: var(--accent);
+                font-size: 1rem;
+                font-weight: 500;
+                cursor: pointer;
+                padding: 10px 22px;
+                border-radius: 8px;
+                transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+                box-shadow: none;
+                outline: none;
+        }
 
-    main {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
+        nav button:hover,
+        nav button.active {
+                background: var(--accent);
+                color: #fff;
+                box-shadow: 0 2px 8px rgba(58,134,255,0.20);
+        }
 
-    section {
-      display: none;
-    }
+        main {
+                max-width: 900px;
+                margin: 40px auto 0 auto;
+                padding: 0 20px;
+                position: relative;
+                z-index: 2;
+        }
 
-    section.active {
-      display: block;
-    }
+        section {
+                display: none;
+                animation: fadeIn 0.5s;
+        }
 
-    h2 {
-      margin-bottom: 20px;
-      font-size: 22px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
-    }
+        section.active {
+                display: block;
+        }
 
-    .services-list, .testimonials-list, .team-list, .certificates-list {
-      list-style: none;
-    }
+        @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(16px);}
+                to { opacity: 1; transform: translateY(0);}
+        }
 
-    .services-list li,
-    .testimonials-list li,
-    .team-list li,
-    .certificates-list li {
-      background: var(--card);
-      padding: 20px;
-      margin-bottom: 15px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px var(--shadow);
-    }
+        h2 {
+                margin-bottom: 24px;
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: var(--accent);
+                border-bottom: 2px solid #3a86ff44;
+                padding-bottom: 10px;
+                letter-spacing: 0.5px;
+        }
 
-    .testimonial-text {
-      font-style: italic;
-      margin-bottom: 8px;
-    }
+        .services-list, .testimonials-list, .team-list, .certificates-list {
+                list-style: none;
+        }
 
-    .team-member {
-      display: flex;
-      align-items: center;
-    }
+        .services-list li,
+        .testimonials-list li,
+        .team-list li,
+        .certificates-list li {
+                background: var(--card);
+                padding: 22px 24px;
+                margin-bottom: 18px;
+                border-radius: 16px;
+                box-shadow: var(--shadow);
+                border: 1.5px solid var(--border);
+                transition: box-shadow 0.18s, border 0.18s, background 0.18s;
+        }
 
-    .team-member img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      margin-right: 20px;
-      object-fit: cover;
-      border: 2px solid var(--accent);
-    }
+        .services-list li:hover,
+        .testimonials-list li:hover,
+        .team-list li:hover,
+        .certificates-list li:hover {
+                box-shadow: 0 8px 32px rgba(58,134,255,0.18);
+                border: 1.5px solid #3a86ff44;
+                background: #232946ee;
+        }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #111;
-      color: var(--accent);
-      font-size: 14px;
-      margin-top: 50px;
-    }
+        .testimonial-text {
+                font-style: italic;
+                margin-bottom: 10px;
+                color: #3a86ff;
+                font-size: 1.08rem;
+        }
 
-    @media (max-width: 600px) {
-      .team-member {
-        flex-direction: column;
-        text-align: center;
-      }
-      .team-member img {
-        margin: 0 0 10px 0;
-      }
-    }
-  </style>
+        .team-member {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+        }
+
+        .team-member img {
+                width: 78px;
+                height: 78px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid var(--accent);
+                box-shadow: 0 2px 8px rgba(58,134,255,0.18);
+                background: #232946;
+                transition: border 0.18s;
+        }
+
+        .team-member:hover img {
+                border: 3px solid #ffbe0b;
+        }
+
+        .team-member div {
+                font-size: 1.07rem;
+                color: var(--text);
+        }
+
+        .team-member strong {
+                color: var(--accent);
+                font-weight: 600;
+                font-size: 1.1rem;
+        }
+
+        footer {
+                text-align: center;
+                padding: 28px 10px 22px 10px;
+                background: var(--footer-bg);
+                color: var(--footer-text);
+                font-size: 1rem;
+                margin-top: 60px;
+                letter-spacing: 0.5px;
+                border-top-left-radius: 24px;
+                border-top-right-radius: 24px;
+                box-shadow: 0 -2px 12px rgba(35,41,70,0.18);
+                position: fixed;
+                left: 0; right: 0; bottom: 0; width: 100%;
+                z-index: 100;
+                backdrop-filter: blur(4px);
+        }
+
+        @media (max-width: 700px) {
+                main {
+                        padding: 0 6px;
+                }
+                .team-member {
+                        flex-direction: column;
+                        text-align: center;
+                        gap: 8px;
+                }
+                .team-member img {
+                        margin: 0 0 10px 0;
+                }
+                .services-list li,
+                .testimonials-list li,
+                .team-list li,
+                .certificates-list li {
+                        padding: 16px 10px;
+                }
+        }
+</style>
 </head>
 <body>
 
-  <header>
-    <h1>Nasza Firma – Nowoczesne Rozwiązania</h1>
-  </header>
+    <header>
+        <h1>Nasza Firma – Nowoczesne Rozwiązania</h1>
+    </header>
 
-  <nav>
-    <button class="tab-btn active" data-target="company">O Nas</button>
-    <button class="tab-btn" data-target="testimonials">Opinie</button>
-    <button class="tab-btn" data-target="team">Zespół</button>
-    <button class="tab-btn" data-target="certificates">Certyfikaty</button>
-  </nav>
+    <nav>
+        <button class="tab-btn active" data-target="company">O Nas</button>
+        <button class="tab-btn" data-target="testimonials">Opinie</button>
+        <button class="tab-btn" data-target="team">Zespół</button>
+        <button class="tab-btn" data-target="certificates">Certyfikaty</button>
+    </nav>
 
-  <main>
-    <section id="company" class="active">
-      <h2>O Nas i Usługi</h2>
-      <p>Specjalizujemy się w dostarczaniu nowoczesnych rozwiązań dla biznesu. Nasze kluczowe usługi to:</p>
-      <ul class="services-list">
-        <li>⚙️ Konsulting technologiczny</li>
-        <li>📈 Rozwój oprogramowania</li>
-        <li>🔒 Bezpieczeństwo IT i infrastruktura</li>
-      </ul>
-    </section>
+    <main>
+        <section id="company" class="active">
+            <h2>O Nas i Usługi</h2>
+            <p>Specjalizujemy się w dostarczaniu nowoczesnych rozwiązań dla biznesu. Nasze kluczowe usługi to:</p>
+            <ul class="services-list">
+                <li>⚙️ Konsulting technologiczny</li>
+                <li>📈 Rozwój oprogramowania</li>
+                <li>🔒 Bezpieczeństwo IT i infrastruktura</li>
+            </ul>
+        </section>
 
-    <section id="testimonials">
-      <h2>Opinie i Case Study</h2>
-      <ul class="testimonials-list">
-        <li>
-          <p class="testimonial-text">"Profesjonalizm w każdym calu. Nasze przychody wzrosły o 30% dzięki tej współpracy!"</p>
-          <strong>– Marta Zielińska, CEO SoftTrade</strong>
-        </li>
-        <li>
-          <p class="testimonial-text">"Projekt zrealizowany w terminie, bez błędów i z pełnym wsparciem." </p>
-          <strong>– Adam Borowski, Dyrektor IT, Nexline</strong>
-        </li>
-      </ul>
-    </section>
+        <section id="testimonials">
+            <h2>Opinie i Case Study</h2>
+            <ul class="testimonials-list">
+                <li>
+                    <p class="testimonial-text">"Profesjonalizm w każdym calu. Nasze przychody wzrosły o 30% dzięki tej współpracy!"</p>
+                    <strong>– Marta Zielińska, CEO SoftTrade</strong>
+                </li>
+                <li>
+                    <p class="testimonial-text">"Projekt zrealizowany w terminie, bez błędów i z pełnym wsparciem." </p>
+                    <strong>– Adam Borowski, Dyrektor IT, Nexline</strong>
+                </li>
+            </ul>
+        </section>
 
-    <section id="team">
-      <h2>Nasz Zespół</h2>
-      <ul class="team-list">
-        <li class="team-member">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Jan Kowalski" />
-          <div>
-            <strong>Jan Kowalski</strong><br />
-            CEO / Strateg Biznesowy
-          </div>
-        </li>
-        <li class="team-member">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Anna Nowak" />
-          <div>
-            <strong>Anna Nowak</strong><br />
-            Lider Projektów / Scrum Master
-          </div>
-        </li>
-      </ul>
-    </section>
+        <section id="team">
+            <h2>Nasz Zespół</h2>
+            <ul class="team-list">
+                <li class="team-member">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Jan Kowalski" />
+                    <div>
+                        <strong>Jan Kowalski</strong><br />
+                        CEO / Strateg Biznesowy
+                    </div>
+                </li>
+                <li class="team-member">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Anna Nowak" />
+                    <div>
+                        <strong>Anna Nowak</strong><br />
+                        Lider Projektów / Scrum Master
+                    </div>
+                </li>
+            </ul>
+        </section>
 
-    <section id="certificates">
-      <h2>Certyfikaty</h2>
-      <ul class="certificates-list">
-        <li>
-          <strong>✔️ ISO 27001</strong><br />
-          Potwierdzenie wysokich standardów bezpieczeństwa informacji.
-        </li>
-        <li>
-          <strong>✔️ Microsoft Certified: Azure Fundamentals</strong><br />
-          Weryfikacja wiedzy cloud i DevOps.
-        </li>
-        <li>
-          <strong>✔️ Google Ads Certified</strong><br />
-          Umiejętności zarządzania kampaniami reklamowymi online.
-        </li>
-      </ul>
-    </section>
-  </main>
+        <section id="certificates">
+            <h2>Certyfikaty</h2>
+            <ul class="certificates-list">
+                <li>
+                    <strong>✔️ ISO 27001</strong><br />
+                    Potwierdzenie wysokich standardów bezpieczeństwa informacji.
+                </li>
+                <li>
+                    <strong>✔️ Microsoft Certified: Azure Fundamentals</strong><br />
+                    Weryfikacja wiedzy cloud i DevOps.
+                </li>
+                <li>
+                    <strong>✔️ Google Ads Certified</strong><br />
+                    Umiejętności zarządzania kampaniami reklamowymi online.
+                </li>
+            </ul>
+        </section>
+    </main>
 
-  <footer>
-    &copy; 2025 Nasza Firma. Wszystkie prawa zastrzeżone.
-  </footer>
+<footer>
+        &copy; 2025 Nasza Firma. Wszystkie prawa zastrzeżone.
+</footer>
 
-  <script>
-    const tabs = document.querySelectorAll('.tab-btn');
-    const sections = document.querySelectorAll('main section');
+    <script>
+        const tabs = document.querySelectorAll('.tab-btn');
+        const sections = document.querySelectorAll('main section');
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const target = tab.getAttribute('data-target');
-        sections.forEach(sec => {
-          sec.classList.remove('active');
-          if (sec.id === target) {
-            sec.classList.add('active');
-          }
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const target = tab.getAttribute('data-target');
+                sections.forEach(sec => {
+                    sec.classList.remove('active');
+                    if (sec.id === target) {
+                        sec.classList.add('active');
+                    }
+                });
+            });
         });
-      });
-    });
-  </script>
+    </script>
 </body>
 </html>
