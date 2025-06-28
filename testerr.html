@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Nowoczesna strona portfolio firmy - usługi, opinie, zespół, certyfikaty." />
+  <title>Nasza Firma</title>
+  <style>
+    :root {
+      --bg: #1c1c1e;
+      --card: #2c2c2e;
+      --text: #f2f2f7;
+      --accent: #e5e5ea;
+      --shadow: rgba(0,0,0,0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: #000;
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom: 1px solid #333;
+    }
+
+    header h1 {
+      font-size: 28px;
+      color: var(--text);
+    }
+
+    nav {
+      background: #111;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px 0;
+      border-bottom: 1px solid #333;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 15px;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.2s ease, color 0.2s;
+    }
+
+    nav button:hover,
+    nav button.active {
+      background: #2c2c2e;
+      color: white;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      display: none;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+
+    .services-list, .testimonials-list, .team-list, .certificates-list {
+      list-style: none;
+    }
+
+    .services-list li,
+    .testimonials-list li,
+    .team-list li,
+    .certificates-list li {
+      background: var(--card);
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px var(--shadow);
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+
+    .team-member {
+      display: flex;
+      align-items: center;
+    }
+
+    .team-member img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-right: 20px;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111;
+      color: var(--accent);
+      font-size: 14px;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 600px) {
+      .team-member {
+        flex-direction: column;
+        text-align: center;
+      }
+      .team-member img {
+        margin: 0 0 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Nasza Firma – Nowoczesne Rozwiązania</h1>
+  </header>
+
+  <nav>
+    <button class="tab-btn active" data-target="company">O Nas</button>
+    <button class="tab-btn" data-target="testimonials">Opinie</button>
+    <button class="tab-btn" data-target="team">Zespół</button>
+    <button class="tab-btn" data-target="certificates">Certyfikaty</button>
+  </nav>
+
+  <main>
+    <section id="company" class="active">
+      <h2>O Nas i Usługi</h2>
+      <p>Specjalizujemy się w dostarczaniu nowoczesnych rozwiązań dla biznesu. Nasze kluczowe usługi to:</p>
+      <ul class="services-list">
+        <li>⚙️ Konsulting technologiczny</li>
+        <li>📈 Rozwój oprogramowania</li>
+        <li>🔒 Bezpieczeństwo IT i infrastruktura</li>
+      </ul>
+    </section>
+
+    <section id="testimonials">
+      <h2>Opinie i Case Study</h2>
+      <ul class="testimonials-list">
+        <li>
+          <p class="testimonial-text">"Profesjonalizm w każdym calu. Nasze przychody wzrosły o 30% dzięki tej współpracy!"</p>
+          <strong>– Marta Zielińska, CEO SoftTrade</strong>
+        </li>
+        <li>
+          <p class="testimonial-text">"Projekt zrealizowany w terminie, bez błędów i z pełnym wsparciem." </p>
+          <strong>– Adam Borowski, Dyrektor IT, Nexline</strong>
+        </li>
+      </ul>
+    </section>
+
+    <section id="team">
+      <h2>Nasz Zespół</h2>
+      <ul class="team-list">
+        <li class="team-member">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Jan Kowalski" />
+          <div>
+            <strong>Jan Kowalski</strong><br />
+            CEO / Strateg Biznesowy
+          </div>
+        </li>
+        <li class="team-member">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Anna Nowak" />
+          <div>
+            <strong>Anna Nowak</strong><br />
+            Lider Projektów / Scrum Master
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="certificates">
+      <h2>Certyfikaty</h2>
+      <ul class="certificates-list">
+        <li>
+          <strong>✔️ ISO 27001</strong><br />
+          Potwierdzenie wysokich standardów bezpieczeństwa informacji.
+        </li>
+        <li>
+          <strong>✔️ Microsoft Certified: Azure Fundamentals</strong><br />
+          Weryfikacja wiedzy cloud i DevOps.
+        </li>
+        <li>
+          <strong>✔️ Google Ads Certified</strong><br />
+          Umiejętności zarządzania kampaniami reklamowymi online.
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Nasza Firma. Wszystkie prawa zastrzeżone.
+  </footer>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab-btn');
+    const sections = document.querySelectorAll('main section');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const target = tab.getAttribute('data-target');
+        sections.forEach(sec => {
+          sec.classList.remove('active');
+          if (sec.id === target) {
+            sec.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
