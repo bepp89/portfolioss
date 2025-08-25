@@ -697,9 +697,11 @@
                         return;
                     }
 
+                    let totalItems = 0;
                     let total = 0;
                     cart.forEach(item => {
                         total += item.price * item.quantity;
+                        totalItems += item.quantity;
                         const cartItemHTML = `
                             <div class="cart-item flex justify-between items-center bg-white p-3 rounded mb-2">
                                 <div>
@@ -713,8 +715,8 @@
                     });
 
                     drawerCartTotalElement.textContent = `${total} zł`;
-                    cartCountMobile.textContent = cart.length;
-                    cartCount.textContent = cart.length;
+                    cartCountMobile.textContent = totalItems;
+                    cartCount.textContent = totalItems;
                     cartCountMobile.classList.remove('hidden');
                     cartCount.classList.remove('hidden');
 
