@@ -682,60 +682,49 @@
 
             // Function to update cart display
             function updateCartDisplay() {
-                const cartItemsContainer = document.getElementById('cart-items');
                 const drawerCartItemsContainer = document.getElementById('drawer-cart-items');
-                const cartTotalElement = document.getElementById('cart-total');
                 const drawerCartTotalElement = document.getElementById('drawer-cart-total');
                 const cartCountMobile = document.getElementById('cart-count-mobile');
                 const cartCount = document.getElementById('cart-count');
 
-                // Clear current cart display
-                cartItemsContainer.innerHTML = '';
-                drawerCartItemsContainer.innerHTML = '';
+                if (drawerCartItemsContainer) {
+                    drawerCartItemsContainer.innerHTML = '';
+                    if (cart.length === 0) {
+                        drawerCartItemsContainer.innerHTML = '<p class="text-gray-600 text-center py-4" data-lang-pl="Twój koszyk jest pusty" data-lang-en="Your cart is empty">Twój koszyk jest pusty</p>';
+                        drawerCartTotalElement.textContent = '0 zł';
+                        cartCountMobile.classList.add('hidden');
+                        cartCount.classList.add('hidden');
+                        return;
+                    }
 
-                if (cart.length === 0) {
-                    cartItemsContainer.innerHTML = '<p class="text-gray-600 text-center py-4" data-lang-pl="Twój koszyk jest pusty" data-lang-en="Your cart is empty">Twój koszyk jest pusty</p>';
-                    drawerCartItemsContainer.innerHTML = '<p class="text-gray-600 text-center py-4" data-lang-pl="Twój koszyk jest pusty" data-lang-en="Your cart is empty">Twój koszyk jest pusty</p>';
-                    cartTotalElement.textContent = '0 zł';
-                    drawerCartTotalElement.textContent = '0 zł';
-                    cartCountMobile.classList.add('hidden');
-                    cartCount.classList.add('hidden');
-                    return;
-                }
-
-                let total = 0;
-
-                cart.forEach(item => {
-                    total += item.price * item.quantity;
-
-                    const cartItemHTML = `
-                        <div class="cart-item flex justify-between items-center bg-white p-3 rounded mb-2">
-                            <div>
-                                <span class="font-medium">${item.name}</span>
-                                <span class="text-sm text-gray-600 block">${item.price} zł x ${item.quantity}</span>
+                    let total = 0;
+                    cart.forEach(item => {
+                        total += item.price * item.quantity;
+                        const cartItemHTML = `
+                            <div class="cart-item flex justify-between items-center bg-white p-3 rounded mb-2">
+                                <div>
+                                    <span class="font-medium">${item.name}</span>
+                                    <span class="text-sm text-gray-600 block">${item.price} zł x ${item.quantity}</span>
+                                </div>
+                                <button class="remove-from-cart-btn text-red-500 hover:text-red-700" data-id="${item.id}">×</button>
                             </div>
-                            <button class="remove-from-cart-btn text-red-500 hover:text-red-700" data-id="${item.id}">×</button>
-                        </div>
-                    `;
-
-                    cartItemsContainer.innerHTML += cartItemHTML;
-                    drawerCartItemsContainer.innerHTML += cartItemHTML;
-                });
-
-                cartTotalElement.textContent = `${total} zł`;
-                drawerCartTotalElement.textContent = `${total} zł`;
-                cartCountMobile.textContent = cart.length;
-                cartCount.textContent = cart.length;
-                cartCountMobile.classList.remove('hidden');
-                cartCount.classList.remove('hidden');
-
-                // Add event listeners for remove buttons
-                document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const id = parseInt(this.dataset.id, 10);
-                        removeFromCart(id);
+                        `;
+                        drawerCartItemsContainer.innerHTML += cartItemHTML;
                     });
-                });
+
+                    drawerCartTotalElement.textContent = `${total} zł`;
+                    cartCountMobile.textContent = cart.length;
+                    cartCount.textContent = cart.length;
+                    cartCountMobile.classList.remove('hidden');
+                    cartCount.classList.remove('hidden');
+
+                    document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const id = parseInt(this.dataset.id, 10);
+                            removeFromCart(id);
+                        });
+                    });
+                }
             }
 
             // Function to add item to cart
