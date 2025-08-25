@@ -1,737 +1,741 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopSphere - Your One-Stop Online Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Somnium Café Bar | Kraków</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .category-card:hover .category-overlay {
-            opacity: 1;
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap');
+        
+        * {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .cart-tab {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-tab.active {
+            border-bottom-color: var(--gold);
+            color: var(--gold);
+            font-weight: 500;
+        }
+        
+        :root {
+            --espresso: #4B2E2B;
+            --caramel: #C7A17A;
+            --cream: #F5F1E6;
+            --sage: #6B8E6C;
+            --gold: #D4AF37;
+            --dark: #2A2118;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M30,70 Q50,30 70,70 L65,80 Q50,75 35,80 Z" fill="none" stroke="%23F5F1E6" stroke-width="3"/><path d="M25,60 Q50,20 75,60 L70,70 Q50,40 30,70 Z" fill="%234B2E2B"/><path d="M40,45 Q50,30 60,45" fill="none" stroke="%23D4AF37" stroke-width="2"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0 auto 20px;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--dark);
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+        }
+        
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 70vh;
+        }
+        
+        .btn-primary {
+            background-color: var(--gold);
+            color: var(--espresso);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--caramel);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .menu-item {
+            border-bottom: 1px dashed var(--secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(210, 180, 140, 0.1);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .language-switcher {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .language-switcher:hover {
+            color: var(--primary);
+        }
+        
+        .active-language {
+            font-weight: bold;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .cart-item {
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            background-color: rgba(210, 180, 140, 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .active-nav::after {
+            width: 100%;
+        }
+
+        .nav-link-mobile.active {
+            background-color: rgba(199, 161, 122, 0.1);
+            color: var(--gold);
+        }
+
+        #mobile-menu {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+
+        #mobile-menu:not(.hidden) {
             transform: translateY(0);
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
-        .cart-count {
-            top: -8px;
-            right: -8px;
-        }
-        .hero-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80');
-            background-size: cover;
-            background-position: center;
-        }
-        .newsletter-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80');
-            background-size: cover;
-            background-position: center;
+            opacity: 1;
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Top Bar -->
-    <div class="bg-indigo-900 text-white py-2 px-4 hidden md:block">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex space-x-4">
-                <span><i class="fas fa-phone-alt mr-2"></i> +1 (555) 123-4567</span>
-                <span><i class="fas fa-envelope mr-2"></i> support@shopsphere.com</span>
-            </div>
-            <div class="flex space-x-4">
-                <a href="#" class="hover:text-indigo-200"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="hover:text-indigo-200"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="hover:text-indigo-200"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="hover:text-indigo-200"><i class="fab fa-pinterest-p"></i></a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <a href="#" class="text-2xl font-bold text-indigo-600 flex items-center">
-                        <i class="fas fa-shopping-bag mr-2"></i>
-                        <span>ShopSphere</span>
-                    </a>
+<body class="overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="bg-white sticky top-0 z-40 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-xl font-bold text-amber-900 tracking-wider">SOMNIUM</span>
+                    <span class="text-amber-700 mx-1">•</span>
+                    <span class="text-xl font-light text-amber-900 tracking-wider">CAFÉ</span>
                 </div>
-
-                <!-- Search Bar -->
-                <div class="hidden md:flex flex-1 mx-8">
-                    <div class="relative w-full max-w-xl">
-                        <input type="text" placeholder="Search for products..." class="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <button class="absolute right-0 top-0 h-full px-4 bg-indigo-600 text-white rounded-r-full hover:bg-indigo-700">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- User Actions -->
-                <div class="flex items-center space-x-4">
-                    <a href="#" class="hidden md:block text-gray-700 hover:text-indigo-600">
-                        <i class="fas fa-user text-xl"></i>
-                    </a>
-                    <a href="#" class="hidden md:block text-gray-700 hover:text-indigo-600">
-                        <i class="fas fa-heart text-xl"></i>
-                    </a>
-                    <div class="relative">
-                        <a href="#" class="text-gray-700 hover:text-indigo-600">
-                            <i class="fas fa-shopping-cart text-xl"></i>
-                            <span class="cart-count absolute bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                        </a>
-                    </div>
-                    <button class="md:hidden text-gray-700">
-                        <i class="fas fa-bars text-xl"></i>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center space-x-4">
+                    <button id="cart-button-mobile" class="relative p-2 text-amber-900 hover:text-amber-700">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cart-count-mobile" class="absolute -top-1 -right-1 bg-amber-700 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                    </button>
+                    <button id="mobile-menu-button" class="text-amber-900 hover:text-amber-700 focus:outline-none p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
                     </button>
                 </div>
-            </div>
-
-            <!-- Mobile Search -->
-            <div class="mt-4 md:hidden">
-                <div class="relative">
-                    <input type="text" placeholder="Search for products..." class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <button class="absolute right-3 top-2 text-gray-500">
-                        <i class="fas fa-search"></i>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-4 lg:space-x-8">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-amber-700 px-3 py-2 active-nav">Strona Główna</a>
+                    <a href="#menu" class="nav-link text-gray-700 hover:text-amber-700 px-3 py-2">Menu</a>
+                    <a href="#reviews" class="nav-link text-gray-700 hover:text-amber-700 px-3 py-2">Opinie</a>
+                    <a href="#order" class="nav-link text-gray-700 hover:text-amber-700 px-3 py-2">Zamów online</a>
+                    <a href="#contact" class="nav-link text-gray-700 hover:text-amber-700 px-3 py-2">Kontakt</a>
+                    <button id="cart-button" class="relative p-2 text-gray-700 hover:text-amber-700">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-amber-700 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
                     </button>
+                    <div class="language-switcher active-language" data-lang="pl">PL</div>
+                    <span class="text-gray-400">|</span>
+                    <div class="language-switcher" data-lang="en">EN</div>
                 </div>
             </div>
         </div>
-
-        <!-- Navigation -->
-        <nav class="bg-indigo-600 text-white hidden md:block">
-            <div class="container mx-auto px-4">
-                <ul class="flex space-x-6">
-                    <li class="py-3 px-2 hover:bg-indigo-700 transition duration-300">
-                        <a href="#" class="font-medium">Home</a>
-                    </li>
-                    <li class="dropdown relative py-3 px-2 hover:bg-indigo-700 transition duration-300">
-                        <a href="#" class="font-medium flex items-center">
-                            Categories <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </a>
-                        <div class="dropdown-menu absolute left-0 mt-2 w-48 bg-white text-gray-800 shadow-lg rounded-md hidden z-50">
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 border-b">Electronics</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 border-b">Pet Supplies</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 border-b">Home Appliances</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 border-b">Clothing</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Groceries</a>
-                        </div>
-                    </li>
-                    <li class="py-3 px-2 hover:bg-indigo-700 transition duration-300">
-                        <a href="#" class="font-medium">Deals</a>
-                    </li>
-                    <li class="py-3 px-2 hover:bg-indigo-700 transition duration-300">
-                        <a href="#" class="font-medium">New Arrivals</a>
-                    </li>
-                    <li class="py-3 px-2 hover:bg-indigo-700 transition duration-300">
-                        <a href="#" class="font-medium">About Us</a>
-                    </li>
-                    <li class="py-3 px-2 hover:bg-indigo-700 transition duration-300">
-                        <a href="#" class="font-medium">Contact</a>
-                    </li>
-                </ul>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg fixed inset-x-0 top-20 z-50">
+            <div class="px-4 py-3 space-y-2">
+                <a href="#home" class="nav-link-mobile block px-3 py-2 text-gray-700 hover:bg-amber-50 rounded-md">Strona Główna</a>
+                <a href="#menu" class="nav-link-mobile block px-3 py-2 text-gray-700 hover:bg-amber-50 rounded-md">Menu</a>
+                <a href="#reviews" class="nav-link-mobile block px-3 py-2 text-gray-700 hover:bg-amber-50 rounded-md">Opinie</a>
+                <a href="#order" class="nav-link-mobile block px-3 py-2 text-gray-700 hover:bg-amber-50 rounded-md">Zamów online</a>
+                <a href="#contact" class="nav-link-mobile block px-3 py-2 text-gray-700 hover:bg-amber-50 rounded-md">Kontakt</a>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="hero-bg text-white py-20 md:py-32">
-        <div class="container mx-auto px-4 text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6">Shop Everything You Need</h1>
-            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">From electronics to pet supplies, we've got you covered with the best products at unbeatable prices.</p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-full font-medium transition duration-300">Shop Now</a>
-                <a href="#" class="bg-white hover:bg-gray-100 text-indigo-600 px-8 py-3 rounded-full font-medium transition duration-300">View Deals</a>
+    <section id="home" class="relative flex items-center justify-center text-center text-cream min-h-screen fade-in" style="background: linear-gradient(rgba(75, 46, 43, 0.7), rgba(75, 46, 43, 0.7)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;">
+        <div class="max-w-4xl px-6 py-16 relative z-10">
+            <div class="logo"></div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 tracking-wide" data-lang-pl="Somnium Café Bar – kawa, która łączy ludzi" data-lang-en="Somnium Café Bar – coffee that connects people">Somnium Café Bar – kawa, która łączy ludzi</h1>
+            <div class="flex flex-col sm:flex-row justify-center gap-6 mt-12">
+                <a href="#menu" class="bg-amber-50 hover:bg-amber-100 text-black px-8 py-3 rounded-full text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg" data-lang-pl="Zobacz menu" data-lang-en="View Menu">Zobacz menu</a>
+                <a href="#order" class="bg-amber-50 hover:bg-amber-100 text-black px-8 py-3 rounded-full text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg" data-lang-pl="Zamów online" data-lang-en="Order Online">Zamów online</a>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-repeat-x" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 20\"><circle cx=\"10\" cy=\"10\" r=\"8\" fill=\"%23D4AF37\"/><circle cx=\"30\" cy=\"8\" r=\"6\" fill=\"%23C7A17A\"/><circle cx=\"50\" cy=\"10\" r=\"7\" fill=\"%23D4AF37\"/><circle cx=\"70\" cy=\"7\" r=\"5\" fill=\"%23C7A17A\"/><circle cx=\"90\" cy=\"10\" r=\"8\" fill=\"%23D4AF37\"/></svg>');"></div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 bg-amber-50 fade-in">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12" data-lang-pl="Nasze menu" data-lang-en="Our Menu">Nasze menu</h2>
+            
+            <p class="text-center max-w-3xl mx-auto mb-12 text-gray-700" data-lang-pl="Serwujemy kawę specialty z najlepszych lokalnych i europejskich palarni. Wszystkie nasze ciasta i desery przygotowywane są codziennie na miejscu." data-lang-en="We serve specialty coffee from the best local and European roasters. All our cakes and desserts are prepared fresh daily.">Serwujemy kawę specialty z najlepszych lokalnych i europejskich palarni. Wszystkie nasze ciasta i desery przygotowywane są codziennie na miejscu.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <!-- Drinks -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-semibold mb-6 pb-2 border-b border-amber-200" data-lang-pl="Napoje" data-lang-en="Drinks">Napoje</h3>
+                    <div class="space-y-6">
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Espresso" data-lang-en="Espresso">Espresso</h4>
+                                <span class="font-medium">12 zł</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1" data-lang-pl="Pojedyncze lub podwójne" data-lang-en="Single or double">Pojedyncze lub podwójne</p>
+                        </div>
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Flat White" data-lang-en="Flat White">Flat White</h4>
+                                <span class="font-medium">14 zł</span>
+                            </div>
+                        </div>
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Cappuccino" data-lang-en="Cappuccino">Cappuccino</h4>
+                                <span class="font-medium">15 zł</span>
+                            </div>
+                        </div>
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Latte" data-lang-en="Latte">Latte</h4>
+                                <span class="font-medium">16 zł</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1" data-lang-pl="Dostępne różne rodzaje mleka" data-lang-en="Various milk options available">Dostępne różne rodzaje mleka</p>
+                        </div>
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Matcha Latte" data-lang-en="Matcha Latte">Matcha Latte</h4>
+                                <span class="font-medium">18 zł</span>
+                            </div>
+                        </div>
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Gorąca czekolada" data-lang-en="Hot Chocolate">Gorąca czekolada</h4>
+                                <span class="font-medium">16 zł</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1" data-lang-pl="Domowa, z prawdziwej czekolady" data-lang-en="Homemade, with real chocolate">Domowa, z prawdziwej czekolady</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Food -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-semibold mb-6 pb-2 border-b border-amber-200" data-lang-pl="Jedzenie" data-lang-en="Food">Jedzenie</h3>
+                    <div class="space-y-6">
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Banana bread" data-lang-en="Banana bread">Banana bread</h4>
+                                <span class="font-medium">14 zł</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1" data-lang-pl="Z orzechami włoskimi i karmelem" data-lang-en="With walnuts and caramel">Z orzechami włoskimi i karmelem</p>
+                        </div>
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Ciasto marchewkowe" data-lang-en="Carrot cake">Ciasto marchewkowe</h4>
+                                <span class="font-medium">16 zł</span>
+                            </div>
+                        </div>
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Sernik" data-lang-en="Cheesecake">Sernik</h4>
+                                <span class="font-medium">17 zł</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1" data-lang-pl="Nowojorski, z musem malinowym" data-lang-en="New York style with raspberry mousse">Nowojorski, z musem malinowym</p>
+                        </div>
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Croissant" data-lang-en="Croissant">Croissant</h4>
+                                <span class="font-medium">10 zł</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1" data-lang-pl="Maślany, z domową konfiturą" data-lang-en="Buttery, with homemade jam">Maślany, z domową konfiturą</p>
+                        </div>
+                        <div class="menu-item pb-4">
+                            <div class="flex justify-between">
+                                <h4 class="font-medium" data-lang-pl="Tosty" data-lang-en="Toast">Tosty</h4>
+                                <span class="font-medium">18 zł</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1" data-lang-pl="Z awokado, jajkiem i rukolą" data-lang-en="With avocado, egg and arugula">Z awokado, jajkiem i rukolą</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Categories Section -->
-    <section class="py-12 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">Shop By Category</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                <!-- Category 1 -->
-                <div class="category-card relative overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Electronics" class="w-full h-48 object-cover">
-                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 transition duration-300 transform translate-y-4">
-                        <a href="#" class="text-white font-medium text-lg">Electronics</a>
+    <!-- Order Online Section -->
+    <section id="order" class="py-20 bg-white fade-in">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12" data-lang-pl="Zamów online" data-lang-en="Order Online">Zamów online</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Menu Items -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4" data-lang-pl="Wybierz produkty" data-lang-en="Select Products">Wybierz produkty</h3>
+                    
+                    <div class="space-y-4">
+                        <!-- Tab Navigation -->
+                        <div class="flex border-b border-amber-200 mb-4">
+                            <div class="cart-tab active" data-tab="drinks" data-lang-pl="Napoje" data-lang-en="Drinks">Napoje</div>
+                            <div class="cart-tab" data-tab="food" data-lang-pl="Jedzenie" data-lang-en="Food">Jedzenie</div>
+                        </div>
+                        
+                        <!-- Drinks Tab -->
+                        <div id="drinks-tab" class="tab-content bg-amber-50 p-4 rounded-lg">
+                            <h4 class="font-medium mb-2" data-lang-pl="Napoje" data-lang-en="Drinks">Napoje</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center bg-white p-3 rounded">
+                                    <div>
+                                        <span class="font-medium" data-lang-pl="Espresso" data-lang-en="Espresso">Espresso</span>
+                                        <span class="text-sm text-gray-600 block" data-lang-pl="12 zł" data-lang-en="12 PLN">12 zł</span>
+                                    </div>
+                                    <button class="add-to-cart-btn bg-amber-900 text-white px-3 py-1 rounded-full text-sm hover:bg-amber-800 transition" data-id="1" data-name-pl="Espresso" data-name-en="Espresso" data-price="12">+</button>
+                                </div>
+                                <div class="flex justify-between items-center bg-white p-3 rounded">
+                                    <div>
+                                        <span class="font-medium" data-lang-pl="Flat White" data-lang-en="Flat White">Flat White</span>
+                                        <span class="text-sm text-gray-600 block" data-lang-pl="14 zł" data-lang-en="14 PLN">14 zł</span>
+                                    </div>
+                                    <button class="add-to-cart-btn bg-amber-900 text-white px-3 py-1 rounded-full text-sm hover:bg-amber-800 transition" data-id="2" data-name-pl="Flat White" data-name-en="Flat White" data-price="14">+</button>
+                                </div>
+                                <div class="flex justify-between items-center bg-white p-3 rounded">
+                                    <div>
+                                        <span class="font-medium" data-lang-pl="Cappuccino" data-lang-en="Cappuccino">Cappuccino</span>
+                                        <span class="text-sm text-gray-600 block" data-lang-pl="15 zł" data-lang-en="15 PLN">15 zł</span>
+                                    </div>
+                                    <button class="add-to-cart-btn bg-amber-900 text-white px-3 py-1 rounded-full text-sm hover:bg-amber-800 transition" data-id="3" data-name-pl="Cappuccino" data-name-en="Cappuccino" data-price="15">+</button>
+                                </div>
+                                <div class="flex justify-between items-center bg-white p-3 rounded">
+                                    <div>
+                                        <span class="font-medium" data-lang-pl="Latte" data-lang-en="Latte">Latte</span>
+                                        <span class="text-sm text-gray-600 block" data-lang-pl="16 zł" data-lang-en="16 PLN">16 zł</span>
+                                    </div>
+                                    <button class="add-to-cart-btn bg-amber-900 text-white px-3 py-1 rounded-full text-sm hover:bg-amber-800 transition" data-id="4" data-name-pl="Latte" data-name-en="Latte" data-price="16">+</button>
+                                </div>
+                                <div class="flex justify-between items-center bg-white p-3 rounded">
+                                    <div>
+                                        <span class="font-medium" data-lang-pl="Matcha Latte" data-lang-en="Matcha Latte">Matcha Latte</span>
+                                        <span class="text-sm text-gray-600 block" data-lang-pl="18 zł" data-lang-en="18 PLN">18 zł</span>
+                                    </div>
+                                    <button class="add-to-cart-btn bg-amber-900 text-white px-3 py-1 rounded-full text-sm hover:bg-amber-800 transition" data-id="5" data-name-pl="Matcha Latte" data-name-en="Matcha Latte" data-price="18">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Food Tab -->
+                        <div id="food-tab" class="tab-content bg-amber-50 p-4 rounded-lg hidden">
+                            <h4 class="font-medium mb-2" data-lang-pl="Jedzenie" data-lang-en="Food">Jedzenie</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center bg-white p-3 rounded">
+                                    <div>
+                                        <span class="font-medium" data-lang-pl="Banana bread" data-lang-en="Banana bread">Banana bread</span>
+                                        <span class="text-sm text-gray-600 block" data-lang-pl="14 zł" data-lang-en="14 PLN">14 zł</span>
+                                    </div>
+                                    <button class="add-to-cart-btn bg-amber-900 text-white px-3 py-1 rounded-full text-sm hover:bg-amber-800 transition" data-id="6" data-name-pl="Banana bread" data-name-en="Banana bread" data-price="14">+</button>
+                                </div>
+                                <div class="flex justify-between items-center bg-white p-3 rounded">
+                                    <div>
+                                        <span class="font-medium" data-lang-pl="Ciasto marchewkowe" data-lang-en="Carrot cake">Ciasto marchewkowe</span>
+                                        <span class="text-sm text-gray-600 block" data-lang-pl="16 zł" data-lang-en="16 PLN">16 zł</span>
+                                    </div>
+                                    <button class="add-to-cart-btn bg-amber-900 text-white px-3 py-1 rounded-full text-sm hover:bg-amber-800 transition" data-id="7" data-name-pl="Ciasto marchewkowe" data-name-en="Carrot cake" data-price="16">+</button>
+                                </div>
+                                <div class="flex justify-between items-center bg-white p-3 rounded">
+                                    <div>
+                                        <span class="font-medium" data-lang-pl="Sernik" data-lang-en="Cheesecake">Sernik</span>
+                                        <span class="text-sm text-gray-600 block" data-lang-pl="17 zł" data-lang-en="17 PLN">17 zł</span>
+                                    </div>
+                                    <button class="add-to-cart-btn bg-amber-900 text-white px-3 py-1 rounded-full text-sm hover:bg-amber-800 transition" data-id="8" data-name-pl="Sernik" data-name-en="Cheesecake" data-price="17">+</button>
+                                </div>
+                                <div class="flex justify-between items-center bg-white p-3 rounded">
+                                    <div>
+                                        <span class="font-medium" data-lang-pl="Croissant" data-lang-en="Croissant">Croissant</span>
+                                        <span class="text-sm text-gray-600 block" data-lang-pl="10 zł" data-lang-en="10 PLN">10 zł</span>
+                                    </div>
+                                    <button class="add-to-cart-btn bg-amber-900 text-white px-3 py-1 rounded-full text-sm hover:bg-amber-800 transition" data-id="9" data-name-pl="Croissant" data-name-en="Croissant" data-price="10">+</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Category 2 -->
-                <div class="category-card relative overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1583511655826-057004d7f139?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Pet Supplies" class="w-full h-48 object-cover">
-                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 transition duration-300 transform translate-y-4">
-                        <a href="#" class="text-white font-medium text-lg">Pet Supplies</a>
+                <!-- Cart and Order Form -->
+                <div>
+                    <div class="bg-amber-50 p-6 rounded-lg shadow-sm mb-6">
+                        <h3 class="text-xl font-semibold mb-4" data-lang-pl="Twój koszyk" data-lang-en="Your Cart">Twój koszyk</h3>
+                        
+                        <div id="cart-items" class="mb-4 max-h-64 overflow-y-auto">
+                            <p class="text-gray-600 text-center py-4" data-lang-pl="Twój koszyk jest pusty" data-lang-en="Your cart is empty">Twój koszyk jest pusty</p>
+                        </div>
+                        
+                        <div class="border-t border-amber-200 pt-4">
+                            <div class="flex justify-between font-medium mb-2">
+                                <span data-lang-pl="Razem" data-lang-en="Total">Razem:</span>
+                                <span id="cart-total">0 zł</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- Category 3 -->
-                <div class="category-card relative overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1556909114-44ecccb05ecd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Home Appliances" class="w-full h-48 object-cover">
-                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 transition duration-300 transform translate-y-4">
-                        <a href="#" class="text-white font-medium text-lg">Home Appliances</a>
-                    </div>
-                </div>
-                
-                <!-- Category 4 -->
-                <div class="category-card relative overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Clothing" class="w-full h-48 object-cover">
-                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 transition duration-300 transform translate-y-4">
-                        <a href="#" class="text-white font-medium text-lg">Clothing</a>
-                    </div>
-                </div>
-                
-                <!-- Category 5 -->
-                <div class="category-card relative overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Groceries" class="w-full h-48 object-cover">
-                    <div class="category-overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 transition duration-300 transform translate-y-4">
-                        <a href="#" class="text-white font-medium text-lg">Groceries</a>
+                    
+                    <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-4" data-lang-pl="Dane do zamówienia" data-lang-en="Order Details">Dane do zamówienia</h3>
+                        
+                        <form id="order-form" class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1" data-lang-pl="Imię i nazwisko" data-lang-en="Full Name">Imię i nazwisko</label>
+                                <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
+                            </div>
+                            
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1" data-lang-pl="Telefon" data-lang-en="Phone">Telefon</label>
+                                <input type="tel" id="phone" name="phone" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1" data-lang-pl="E-mail" data-lang-en="Email">E-mail</label>
+                                <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
+                            </div>
+                            
+                            <div>
+                                <label for="address" class="block text-sm font-medium text-gray-700 mb-1" data-lang-pl="Adres dostawy (opcjonalnie)" data-lang-en="Delivery Address (optional)">Adres dostawy (opcjonalnie)</label>
+                                <input type="text" id="address" name="address" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
+                            </div>
+                            
+                            <div>
+                                <label for="notes" class="block text-sm font-medium text-gray-700 mb-1" data-lang-pl="Uwagi do zamówienia" data-lang-en="Order Notes">Uwagi do zamówienia</label>
+                                <textarea id="notes" name="notes" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary w-full py-3 rounded-md text-lg font-medium" data-lang-pl="Złóż zamówienie" data-lang-en="Place Order">Złóż zamówienie</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Featured Products -->
-    <section class="py-12 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold">Featured Products</h2>
-                <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">View All</a>
+    <!-- Reviews Section -->
+    <section id="reviews" class="py-20 bg-amber-50 fade-in">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12" data-lang-pl="Opinie naszych gości" data-lang-en="Customer Reviews">Opinie naszych gości</h2>
+            
+            <div class="text-center mb-12">
+                <div class="flex justify-center items-center mb-4">
+                    <div class="flex">
+                        <i class="fas fa-star text-amber-500 text-2xl"></i>
+                        <i class="fas fa-star text-amber-500 text-2xl"></i>
+                        <i class="fas fa-star text-amber-500 text-2xl"></i>
+                        <i class="fas fa-star text-amber-500 text-2xl"></i>
+                        <i class="fas fa-star-half-alt text-amber-500 text-2xl"></i>
+                    </div>
+                    <span class="ml-2 text-xl font-medium">4.8/5</span>
+                </div>
+                <p class="text-gray-700" data-lang-pl="na podstawie 1000+ opinii w Google Maps" data-lang-en="based on 1000+ Google Maps reviews">na podstawie 1000+ opinii w Google Maps</p>
             </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <!-- Product 1 -->
-                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Smartphone" class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-20%</div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex mb-4">
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
                     </div>
-                    <div class="p-4">
-                        <div class="flex items-center mb-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span class="text-gray-600 text-xs ml-2">(42)</span>
-                        </div>
-                        <h3 class="font-semibold text-lg mb-1">Premium Smartphone X1</h3>
-                        <p class="text-gray-600 text-sm mb-2">Latest model with 128GB storage</p>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-gray-500 line-through text-sm">$899.99</span>
-                                <span class="text-indigo-600 font-bold ml-2">$719.99</span>
-                            </div>
-                            <button class="text-indigo-600 hover:text-indigo-800">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <p class="italic text-gray-700 mb-4">"Simply my favorite coffee shop with good energy and even better coffee."</p>
+                    <p class="font-medium">- Taste Krakow</p>
                 </div>
                 
-                <!-- Product 2 -->
-                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1589927986089-35812388d1b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Dog Food" class="w-full h-48 object-cover">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex mb-4">
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
                     </div>
-                    <div class="p-4">
-                        <div class="flex items-center mb-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <span class="text-gray-600 text-xs ml-2">(36)</span>
-                        </div>
-                        <h3 class="font-semibold text-lg mb-1">Premium Dog Food</h3>
-                        <p class="text-gray-600 text-sm mb-2">Organic, grain-free formula</p>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-indigo-600 font-bold">$29.99</span>
-                            </div>
-                            <button class="text-indigo-600 hover:text-indigo-800">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <p class="italic text-gray-700 mb-4" data-lang-pl='"Jak w domu, ale z najlepszą kawą w mieście."' data-lang-en='"Like home, but with the best coffee in town."'>"Jak w domu, ale z najlepszą kawą w mieście."</p>
+                    <p class="font-medium">- Anna K.</p>
                 </div>
                 
-                <!-- Product 3 -->
-                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1584564472417a8c0e7a2d9a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Air Fryer" class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">New</div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex mb-4">
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
                     </div>
-                    <div class="p-4">
-                        <div class="flex items-center mb-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="text-gray-600 text-xs ml-2">(128)</span>
-                        </div>
-                        <h3 class="font-semibold text-lg mb-1">Digital Air Fryer</h3>
-                        <p class="text-gray-600 text-sm mb-2">5.8QT capacity with 8 presets</p>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-indigo-600 font-bold">$89.99</span>
-                            </div>
-                            <button class="text-indigo-600 hover:text-indigo-800">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <p class="italic text-gray-700 mb-4" data-lang-pl='"Banana bread to must try! A do tego idealnie spienione mleko w latte."' data-lang-en='"Banana bread is a must try! And perfectly frothed milk in the latte."'>"Banana bread to must try! A do tego idealnie spienione mleko w latte."</p>
+                    <p class="font-medium">- Marek Z.</p>
                 </div>
                 
-                <!-- Product 4 -->
-                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Smart Watch" class="w-full h-48 object-cover">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex mb-4">
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
+                        <i class="fas fa-star text-amber-500"></i>
                     </div>
-                    <div class="p-4">
-                        <div class="flex items-center mb-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span class="text-gray-600 text-xs ml-2">(74)</span>
-                        </div>
-                        <h3 class="font-semibold text-lg mb-1">Fitness Smart Watch</h3>
-                        <p class="text-gray-600 text-sm mb-2">Heart rate monitor & GPS</p>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-indigo-600 font-bold">$129.99</span>
-                            </div>
-                            <button class="text-indigo-600 hover:text-indigo-800">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <p class="italic text-gray-700 mb-4">"The best flat white I've had outside of Australia. The baristas really know their craft."</p>
+                    <p class="font-medium">- James L.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Banner Section -->
-    <section class="py-12 bg-indigo-600 text-white">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row items-center justify-between">
-                <div class="md:w-1/2 mb-8 md:mb-0">
-                    <h2 class="text-3xl font-bold mb-4">Summer Sale!</h2>
-                    <p class="text-xl mb-6">Up to 50% off on selected items. Limited time offer!</p>
-                    <a href="#" class="bg-white text-indigo-600 hover:bg-gray-100 px-6 py-3 rounded-full font-medium transition duration-300 inline-block">Shop the Sale</a>
-                </div>
-                <div class="md:w-1/2 flex justify-center">
-                    <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Summer Sale" class="w-full max-w-md rounded-lg shadow-xl">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- New Arrivals -->
-    <section class="py-12 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold">New Arrivals</h2>
-                <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">View All</a>
-            </div>
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-amber-50 fade-in">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12" data-lang-pl="Kontakt" data-lang-en="Contact">Kontakt</h2>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <!-- Product 5 -->
-                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Running Shoes" class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <div class="flex items-center mb-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <span class="text-gray-600 text-xs ml-2">(18)</span>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4" data-lang-pl="Skontaktuj się z nami" data-lang-en="Get in Touch">Skontaktuj się z nami</h3>
+                    
+                    <form id="contact-form" class="space-y-4">
+                        <div>
+                            <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1" data-lang-pl="Imię" data-lang-en="Name">Imię</label>
+                            <input type="text" id="contact-name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
                         </div>
-                        <h3 class="font-semibold text-lg mb-1">Pro Running Shoes</h3>
-                        <p class="text-gray-600 text-sm mb-2">Lightweight & breathable</p>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-indigo-600 font-bold">$79.99</span>
-                            </div>
-                            <button class="text-indigo-600 hover:text-indigo-800">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
+                        
+                        <div>
+                            <label for="contact-email" class="block text-sm font-medium text-gray-700 mb-1" data-lang-pl="E-mail" data-lang-en="Email">E-mail</label>
+                            <input type="email" id="contact-email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
                         </div>
-                    </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-1" data-lang-pl="Wiadomość" data-lang-en="Message">Wiadomość</label>
+                            <textarea id="message" name="message" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary px-6 py-3 rounded-md text-lg font-medium" data-lang-pl="Wyślij wiadomość" data-lang-en="Send Message">Wyślij wiadomość</button>
+                    </form>
                 </div>
                 
-                <!-- Product 6 -->
-                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Blender" class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-15%</div>
-                    </div>
-                    <div class="p-4">
-                        <div class="flex items-center mb-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span class="text-gray-600 text-xs ml-2">(56)</span>
-                        </div>
-                        <h3 class="font-semibold text-lg mb-1">High-Speed Blender</h3>
-                        <p class="text-gray-600 text-sm mb-2">1500W motor with 8 speeds</p>
-                        <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4" data-lang-pl="Dane kontaktowe" data-lang-en="Contact Details">Dane kontaktowe</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-amber-900 mt-1 mr-3"></i>
                             <div>
-                                <span class="text-gray-500 line-through text-sm">$129.99</span>
-                                <span class="text-indigo-600 font-bold ml-2">$110.49</span>
+                                <h4 class="font-medium" data-lang-pl="Adres" data-lang-en="Address">Adres</h4>
+                                <p class="text-gray-700" data-lang-pl="ul. Beera Meiselsa 5, 31-058 Kraków" data-lang-en="Beera Meiselsa 5, 31-058 Kraków">ul. Beera Meiselsa 5, 31-058 Kraków</p>
                             </div>
-                            <button class="text-indigo-600 hover:text-indigo-800">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Product 7 -->
-                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Cat Food" class="w-full h-48 object-cover">
-                    </div>
-                    <div class="p-4">
-                        <div class="flex items-center mb-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="text-gray-600 text-xs ml-2">(94)</span>
-                        </div>
-                        <h3 class="font-semibold text-lg mb-1">Premium Cat Food</h3>
-                        <p class="text-gray-600 text-sm mb-2">Grain-free salmon recipe</p>
-                        <div class="flex items-center justify-between">
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-phone-alt text-amber-900 mt-1 mr-3"></i>
                             <div>
-                                <span class="text-indigo-600 font-bold">$24.99</span>
+                                <h4 class="font-medium" data-lang-pl="Telefon" data-lang-en="Phone">Telefon</h4>
+                                <p class="text-gray-700">+48 123 456 789</p>
                             </div>
-                            <button class="text-indigo-600 hover:text-indigo-800">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Product 8 -->
-                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1592155931584-901ac15763e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Wireless Earbuds" class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">Bestseller</div>
-                    </div>
-                    <div class="p-4">
-                        <div class="flex items-center mb-1">
-                            <div class="flex text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="text-gray-600 text-xs ml-2">(213)</span>
-                        </div>
-                        <h3 class="font-semibold text-lg mb-1">Wireless Earbuds Pro</h3>
-                        <p class="text-gray-600 text-sm mb-2">Active noise cancellation</p>
-                        <div class="flex items-center justify-between">
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-envelope text-amber-900 mt-1 mr-3"></i>
                             <div>
-                                <span class="text-indigo-600 font-bold">$149.99</span>
+                                <h4 class="font-medium" data-lang-pl="E-mail" data-lang-en="Email">E-mail</h4>
+                                <p class="text-gray-700">kontakt@somniumcafe.pl</p>
                             </div>
-                            <button class="text-indigo-600 hover:text-indigo-800">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
                         </div>
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-clock text-amber-900 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium" data-lang-pl="Godziny otwarcia" data-lang-en="Opening Hours">Godziny otwarcia</h4>
+                                <p class="text-gray-700" data-lang-pl="Pon-Czw: 08:00-18:00<br>Pt-Nd: 08:00-20:00" data-lang-en="Mon-Thu: 08:00-18:00<br>Fri-Sun: 08:00-20:00">Pon-Czw: 08:00-18:00<br>Pt-Nd: 08:00-20:00</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-share-alt text-amber-900 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium" data-lang-pl="Social media" data-lang-en="Social Media">Social media</h4>
+                                <div class="flex space-x-4 mt-2">
+                                    <a href="#" class="text-amber-900 hover:text-amber-700"><i class="fab fa-instagram text-2xl"></i></a>
+                                    <a href="#" class="text-amber-900 hover:text-amber-700"><i class="fab fa-facebook text-2xl"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2561.069140782804!2d19.94840831571538!3d50.06626697942418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47165b1aa3e41871%3A0x6f4515f3a10b8291!2sBeera%20Meiselsa%205%2C%2031-058%20Krak%C3%B3w!5e0!3m2!1sen!2spl!4v1629996547892!5m2!1sen!2spl" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" class="rounded-lg shadow-md"></iframe>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="py-12 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">What Our Customers Say</h2>
+    <!-- About Section (accessible only via navigation link) -->
+    <section id="about" class="hidden">
+        <div class="absolute top-0 left-0 right-0 h-16 bg-repeat-x rotate-180" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 20\"><path d=\"M0,10 Q25,20 50,10 T100,10\" fill=\"none\" stroke=\"%23C7A17A\" stroke-width=\"2\" stroke-opacity=\"0.5\"/></svg>');"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12" data-lang-pl="O nas" data-lang-en="About Us">O nas</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-400 mr-2">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="text-gray-600">5/5</span>
-                    </div>
-                    <p class="text-gray-700 mb-4">"The smartphone I ordered arrived quickly and was exactly as described. Great customer service too!"</p>
-                    <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J." class="w-10 h-10 rounded-full mr-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4" data-lang-pl="Nasze lokalizacje" data-lang-en="Our Locations">Nasze lokalizacje</h3>
+                    <div class="space-y-4">
                         <div>
-                            <h4 class="font-medium">Sarah J.</h4>
-                            <p class="text-gray-500 text-sm">Verified Buyer</p>
+                            <h4 class="text-xl font-medium" data-lang-pl="Kazimierz" data-lang-en="Kazimierz">Kazimierz</h4>
+                            <p class="text-gray-700" data-lang-pl="ul. Beera Meiselsa 5, Kraków" data-lang-en="Beera Meiselsa 5, Kraków">ul. Beera Meiselsa 5, Kraków</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-medium" data-lang-pl="Podgórze" data-lang-en="Podgórze">Podgórze</h4>
+                            <p class="text-gray-700" data-lang-pl="ul. Przemysłowa 1, Kraków" data-lang-en="Przemysłowa 1, Kraków">ul. Przemysłowa 1, Kraków</p>
                         </div>
                     </div>
+                    
+                    <h3 class="text-2xl font-semibold mt-8 mb-4" data-lang-pl="Godziny otwarcia" data-lang-en="Opening Hours">Godziny otwarcia</h3>
+                    <ul class="space-y-2">
+                        <li class="flex justify-between max-w-xs">
+                            <span data-lang-pl="Pon–Czw" data-lang-en="Mon–Thu">Pon–Czw</span>
+                            <span>08:00–18:00</span>
+                        </li>
+                        <li class="flex justify-between max-w-xs">
+                            <span data-lang-pl="Pt–Nd" data-lang-en="Fri–Sun">Pt–Nd</span>
+                            <span>08:00–20:00</span>
+                        </li>
+                    </ul>
                 </div>
                 
-                <!-- Testimonial 2 -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-400 mr-2">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="text-gray-600">5/5</span>
-                    </div>
-                    <p class="text-gray-700 mb-4">"My dog loves the premium food I ordered. The subscription option makes it so convenient!"</p>
-                    <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Michael T." class="w-10 h-10 rounded-full mr-3">
-                        <div>
-                            <h4 class="font-medium">Michael T.</h4>
-                            <p class="text-gray-500 text-sm">Verified Buyer</p>
-                        </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4" data-lang-pl="Nasza historia" data-lang-en="Our Story">Nasza historia</h3>
+                    <p class="text-gray-700 mb-4" data-lang-pl="Somnium Café Bar został założony w 2014 roku przez Beatę i Matviya - pasjonatów kawy specialty, którzy postanowili stworzyć miejsce łączące wyjątkową kawę z przytulną atmosferą." data-lang-en="Somnium Café Bar was founded in 2014 by Beata and Matviy - specialty coffee enthusiasts who wanted to create a place combining exceptional coffee with a cozy atmosphere.">Somnium Café Bar został założony w 2014 roku przez Beatę i Matviya - pasjonatów kawy specialty, którzy postanowili stworzyć miejsce łączące wyjątkową kawę z przytulną atmosferą.</p>
+                    <p class="text-gray-700" data-lang-pl="W naszych lokalach znajdziesz nie tylko najlepszą kawę w mieście, ale także przytulne mezzanine, gdzie organizujemy warsztaty, cuppingi i spotkania społecznościowe." data-lang-en="In our cafes you'll find not only the best coffee in town, but also a cozy mezzanine where we organize workshops, cuppings and community meetings.">W naszych lokalach znajdziesz nie tylko najlepszą kawę w mieście, ale także przytulne mezzanine, gdzie organizujemy warsztaty, cuppingi i spotkania społecznościowe.</p>
+                    
+                    <div class="mt-8">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Café interior" class="rounded-lg shadow-md w-full h-64 object-cover">
                     </div>
                 </div>
-                
-                <!-- Testimonial 3 -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-400 mr-2">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="text-gray-600">4.5/5</span>
-                    </div>
-                    <p class="text-gray-700 mb-4">"The air fryer has been a game changer for my kitchen. Fast shipping and great price!"</p>
-                    <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Lisa M." class="w-10 h-10 rounded-full mr-3">
-                        <div>
-                            <h4 class="font-medium">Lisa M.</h4>
-                            <p class="text-gray-500 text-sm">Verified Buyer</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newsletter -->
-    <section class="newsletter-bg text-white py-16">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
-            <p class="text-xl mb-8 max-w-2xl mx-auto">Subscribe to our newsletter for the latest products, deals, and news.</p>
-            <div class="flex flex-col sm:flex-row justify-center max-w-md mx-auto">
-                <input type="email" placeholder="Your email address" class="px-4 py-3 w-full rounded-l-full sm:rounded-r-none rounded-r-full mb-2 sm:mb-0 text-gray-900 focus:outline-none">
-                <button class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-r-full sm:rounded-l-none rounded-l-full font-medium transition duration-300">Subscribe</button>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white pt-12 pb-6">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-                <!-- Column 1 -->
-                <div>
-                    <h3 class="text-xl font-bold mb-4 flex items-center">
-                        <i class="fas fa-shopping-bag mr-2"></i>
-                        <span>ShopSphere</span>
-                    </h3>
-                    <p class="text-gray-400 mb-4">Your one-stop shop for all your needs. Quality products at affordable prices.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-pinterest-p"></i></a>
-                    </div>
+    <footer class="bg-amber-900 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+                <div class="mb-4 md:mb-0">
+                    <span class="text-xl font-bold">Somnium Café Bar</span>
                 </div>
                 
-                <!-- Column 2 -->
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Shop</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Electronics</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Pet Supplies</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Home Appliances</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Clothing</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Groceries</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Column 3 -->
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Customer Service</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">FAQs</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Shipping Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Returns & Refunds</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Track Order</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Column 4 -->
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Contact Info</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-center">
-                            <i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>
-                            <span class="text-gray-400">123 Commerce St, Business City, BC 12345</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone-alt mr-2 text-gray-400"></i>
-                            <span class="text-gray-400">+1 (555) 123-4567</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-envelope mr-2 text-gray-400"></i>
-                            <span class="text-gray-400">support@shopsphere.com</span>
-                        </li>
-                    </ul>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-amber-200"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-amber-200"><i class="fab fa-facebook"></i></a>
                 </div>
             </div>
             
-            <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 ShopSphere. All rights reserved.</p>
-                <div class="flex space-x-4">
-                    <img src="https://via.placeholder.com/40x25" alt="Visa" class="h-6">
-                    <img src="https://via.placeholder.com/40x25" alt="Mastercard" class="h-6">
-                    <img src="https://via.placeholder.com/40x25" alt="PayPal" class="h-6">
-                    <img src="https://via.placeholder.com/40x25" alt="Apple Pay" class="h-6">
-                </div>
+            <div class="mt-6 text-center md:text-left">
+                <p data-lang-pl="© 2014–2025 Somnium Café Bar. Wszystkie prawa zastrzeżone." data-lang-en="© 2014–2025 Somnium Café Bar. All rights reserved.">© 2014–2025 Somnium Café Bar. Wszystkie prawa zastrzeżone.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Mobile Menu (hidden by default) -->
-    <div class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden" id="mobileMenu">
-        <div class="bg-white h-full w-4/5 max-w-sm overflow-y-auto">
-            <div class="p-4 flex justify-between items-center border-b">
-                <a href="#" class="text-xl font-bold text-indigo-600">
-                    <i class="fas fa-shopping-bag mr-2"></i>
-                    ShopSphere
-                </a>
-                <button id="closeMobileMenu" class="text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuButton = document.getElementById('mobile-menu-button');
+            
+            if (!mobileMenu.classList.contains('hidden') && 
+                !menuButton.contains(e.target) && 
+                !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    </script>
+
+    <!-- Cart Drawer -->
+    <div id="cart-drawer" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50">
+        <div class="h-full flex flex-col">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 class="text-xl font-bold" data-lang-pl="Twój koszyk" data-lang-en="Your Cart">Twój koszyk</h3>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="p-4">
-                <ul class="space-y-4">
-                    <li><a href="#" class="block py-2 font-medium">Home</a></li>
-                    <li>
-                        <a href="#" class="block py-2 font-medium flex justify-between items-center">
-                            Categories <i class="fas fa-chevron-down"></i>
-                        </a>
-                        <ul class="pl-4 mt-2 space-y-2 hidden">
-                            <li><a href="#" class="block py-1 text-gray-700">Electronics</a></li>
-                            <li><a href="#" class="block py-1 text-gray-700">Pet Supplies</a></li>
-                            <li><a href="#" class="block py-1 text-gray-700">Home Appliances</a></li>
-                            <li><a href="#" class="block py-1 text-gray-700">Clothing</a></li>
-                            <li><a href="#" class="block py-1 text-gray-700">Groceries</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#" class="block py-2 font-medium">Deals</a></li>
-                    <li><a href="#" class="block py-2 font-medium">New Arrivals</a></li>
-                    <li><a href="#" class="block py-2 font-medium">About Us</a></li>
-                    <li><a href="#" class="block py-2 font-medium">Contact</a></li>
-                </ul>
-                
-                <div class="mt-8 pt-4 border-t">
-                    <a href="#" class="block py-2 font-medium flex items-center">
-                        <i class="fas fa-user mr-2"></i> My Account
-                    </a>
-                    <a href="#" class="block py-2 font-medium flex items-center">
-                        <i class="fas fa-heart mr-2"></i> Wishlist
-                    </a>
-                    <a href="#" class="block py-2 font-medium flex items-center">
-                        <i class="fas fa-shopping-cart mr-2"></i> Cart
-                    </a>
+            <div id="drawer-cart-items" class="flex-1 overflow-y-auto p-4">
+                <p class="text-gray-600 text-center py-4" data-lang-pl="Twój koszyk jest pusty" data-lang-en="Your cart is empty">Twój koszyk jest pusty</p>
+            </div>
+            <div class="border-t p-4">
+                <div class="flex justify-between font-medium mb-4">
+                    <span data-lang-pl="Razem" data-lang-en="Total">Razem:</span>
+                    <span id="drawer-cart-total">0 zł</span>
                 </div>
+                <button id="checkout-button" class="w-full bg-amber-700 hover:bg-amber-800 text-white py-3 rounded-md font-medium" data-lang-pl="Przejdź do kasy" data-lang-en="Proceed to Checkout">Przejdź do kasy</button>
             </div>
         </div>
     </div>
-
-    <script>
-        // Mobile menu toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.querySelector('header button.md\\:hidden');
-            const mobileMenu = document.getElementById('mobileMenu');
-            const closeMobileMenu = document.getElementById('closeMobileMenu');
-            
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.remove('hidden');
-            });
-            
-            closeMobileMenu.addEventListener('click', function() {
-                mobileMenu.classList.add('hidden');
-            });
-            
-            // Category dropdown in mobile menu
-            const categoryToggle = document.querySelector('#mobileMenu a.block.py-2.font-medium.flex.justify-between.items-center');
-            if (categoryToggle) {
-                categoryToggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const subMenu = this.nextElementSibling;
-                    subMenu.classList.toggle('hidden');
-                    const icon = this.querySelector('i');
-                    icon.classList.toggle('fa-chevron-down');
-                    icon.classList.toggle('fa-chevron-up');
-                });
-            }
-            
-            // Simple cart count update for demo
-            const addToCartButtons = document.querySelectorAll('.product-card button');
-            const cartCount = document.querySelector('.cart-count');
-            let count = 0;
-            
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    count++;
-                    cartCount.textContent = count;
-                    cartCount.classList.add('animate-bounce');
-                    setTimeout(() => {
-                        cartCount.classList.remove('animate-bounce');
-                    }, 1000);
-                });
-            });
-        });
-    </script>
+    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
 </body>
 </html>
