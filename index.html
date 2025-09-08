@@ -685,6 +685,24 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for navigation links
+            function smoothScrollToSection(event) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        event.preventDefault();
+                        window.scrollTo({
+                            top: target.offsetTop - 70, // adjust for sticky nav height
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }
+            document.querySelectorAll('.nav-link, .nav-link-mobile').forEach(link => {
+                link.addEventListener('click', smoothScrollToSection);
+            });
+
             // Mobile menu toggle with sweep animation
             document.getElementById('mobile-menu-button').addEventListener('click', function(e) {
                 e.stopPropagation();
